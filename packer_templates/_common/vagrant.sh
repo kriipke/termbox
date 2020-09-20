@@ -1,19 +1,25 @@
 #!/bin/sh -eux
 
-# set a default HOME_DIR environment variable if not set
-HOME_DIR="${HOME_DIR:-/home/vagrant}";
+# chef/bento:
 
-pubkey_url="https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub";
-mkdir -p $HOME_DIR/.ssh;
-if command -v wget >/dev/null 2>&1; then
-    wget --no-check-certificate "$pubkey_url" -O $HOME_DIR/.ssh/authorized_keys;
-elif command -v curl >/dev/null 2>&1; then
-    curl --insecure --location "$pubkey_url" > $HOME_DIR/.ssh/authorized_keys;
-elif command -v fetch >/dev/null 2>&1; then
-    fetch -am -o $HOME_DIR/.ssh/authorized_keys "$pubkey_url";
+/usr/sbin/groupadd vagrant
+/usr/sbin/useradd vagrant -g vagrant -G wheel
+echo "vagrant" | passwd --stdin vagrant
+echo "vagrant        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
+
+mkdir -pm 0700 /home/vagrant/.ssh
+PUBKEY_URL='https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub'
+AUTHZD_KEYS=/home/vagrant/.ssh/authorized_keys
+
+if command -v wget; then
+    wget --no-check-certificate "$PUBKEY_URL" -O "$AUTHZD_KEYS"
+elif command -v curl; then
+    curl --insecure --location "$PUBKEY_URL" > "$AUTHZD_KEYS"
 else
-    echo "Cannot download vagrant public key";
-    exit 1;
+    echo Cannot download vagrant public key
+    exit 1
 fi
-chown -R vagrant $HOME_DIR/.ssh;
-chmod -R go-rwsx $HOME_DIR/.ssh;
+
+chown -R vagrant:vagrant $HOME_DIR/.ssh
+chmod -R go-rwsx $HOME_DIR/.ssh
+
