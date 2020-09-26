@@ -151,7 +151,6 @@
         "{{template_dir}}/scripts/fix-slow-dns.sh",
         "{{template_dir}}/scripts/build-tools.sh",
         "{{template_dir}}/scripts/install-supporting-packages.sh",
-        "{{template_dir}}/../_common/motd.sh",
         "{{template_dir}}/../_common/sshd.sh",
         "{{template_dir}}/../_common/virtualbox.sh",
         "{{template_dir}}/../_common/vmware.sh",
@@ -161,14 +160,11 @@
       "type": "shell"
     },
     {
-      "environment_vars": [
-        "GIT_SERVER_KEYS={{user `git_server_key`}}",
-        "PACKER_SHARED_DIR={{user `packer_file_upload_target`}}"
-      ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
-      "expect_disconnect": true,
       "scripts": [
-        "{{template_dir}}/../_common/baseline/01-configure_xdg_dirs.sh"
+        "{{template_dir}}/../_common/configure_xdg_dirs.sh",
+        "{{template_dir}}/../_common/configure_linux_vt.sh",
+        "{{template_dir}}/../_common/base_packages.sh"
       ],
       "type": "shell"
     },

@@ -48,7 +48,7 @@ for dir in $XDG_BASE_CONFIG; do
 done
 IFS="$old_ifs"
 
-RC_XDG_BASE="/etc/profile.d/001-xdg_dirs_rc.sh"
+RC_XDG_BASE="/etc/profile.d/00-xdg_dirs_rc.sh"
 cat >"$RC_XDG_BASE" <<EOF
 #!/bin/sh
 
@@ -57,6 +57,8 @@ cat >"$RC_XDG_BASE" <<EOF
 export XDG_CONFIG_DIRS XDG_DATA_DIRS
 XDG_CONFIG_DIRS='$( echo "$XDG_BASE_CONFIG" | tr ' ' ':' )'
 XDG_DATA_DIRS='$( echo "$XDG_BASE_DATA" | tr ' ' ':' )'
+
+xdg-user-dirs-update
 EOF
 
 . "$RC_XDG_BASE"
