@@ -1,0 +1,49 @@
+---
+- name: install zsh package
+  package:
+    name:
+      - zsh
+      - "{{ pkg.chsh }}"
+    state: latest
+
+- name: create $ZSH_CUSTOM directory
+  copy:
+    path: "{{ dir.zsh_custom }}"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0755
+  loop: "{{ zsh_users }}"
+
+
+- name: set zsh as default shell for given users
+  command: chsh -s /usr/bin/zsh {{ item }}
+  loop: "{{ zsh_users }}"
+
+
+- name: download oh-my-zsh installer
+  get_url:
+    url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/ohmyzsh.sh
+    mode: 0550
+
+- name: running oh-my-zsh installer
+  shell: ZSH="{{ dir.ohmyzsh }}" sh /tmp/ohmyzsh.sh --unattended
+  args:
+    creates: "{{ dir.ohmyzsh }}/oh-my-zsh.sh"
+
+- name: create $ZSH_CUSTOM directory
+  file:
+    path: "{{ dir.zsh_custom }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: copying system-wide zshrc to host
+  template:
+    src: zshrc.j2
+    dest: /etc/zshrc
+    owner: root
+    group: root
+    mode: 0755

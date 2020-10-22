@@ -1,0 +1,22 @@
+---
+- name: copying inputrc to host
+  copy:
+    src: inputrc
+    dest: /etc/inputrc
+    owner: root
+    group: root
+    mode: 0644
+
+- name: adding INPUTRC to shell environment
+  lineinfile:
+    path: /etc/profile.d/sh.local
+    regex: '^export INPUTRC='
+    line: export INPUTRC=/etc/inputrc
+
+- name: adding shell prompt config to /etc/profile.d
+  copy:
+    src: prompt.sh
+    dest: /etc/profile.d/prompt.sh
+    owner: root
+    group: root
+    mode: 0644

@@ -1,0 +1,13 @@
+---
+- name: set distro-specific variables
+  include_vars: '{{ item }}'
+  with_first_found:
+    - '{{ ansible_distribution }}.yml'
+
+- name: copying console keymap to host
+  copy:
+    src: o0zi.map
+    dest: "{{ dir.keymaps }}"
+    owner: root
+    group: root
+    mode: 0644

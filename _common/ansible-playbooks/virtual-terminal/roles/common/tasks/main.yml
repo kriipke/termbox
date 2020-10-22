@@ -1,0 +1,6 @@
+- name: installing virtual terminal related packages
+  package:
+    name:
+      - kbd
+      - kitty-terminfo
+    state: latest

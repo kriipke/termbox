@@ -1,0 +1,13 @@
+---
+zsh:
+  plugins:
+    - git
+    - fzf
+    - ripgrep
+    - fd
+    - fasd
+dir:
+  ohmyzsh: /usr/lib/zsh
+  zsh_custom: /etc/zsh
+pkg:
+  chsh: util-linux-user

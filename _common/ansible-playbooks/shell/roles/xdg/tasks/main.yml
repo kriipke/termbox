@@ -1,0 +1,47 @@
+---
+- name: installing XDG specification packages
+  package:
+    name:
+      - xdg-user-dirs
+      - xdg-utils
+    state: latest
+
+- name: creating /etc/profile.d/sh.local
+  file:
+    path: /etc/profile.d/sh.local
+    state: touch
+    owner: root
+    group: root
+    mode: 0644
+
+- debug:
+    var: dir
+
+- name: adding XDG_CONFIG_DIRS to shell environment
+  lineinfile:
+    path: /etc/profile.d/sh.local
+    regex: '^export XDG_CONFIG_DIRS='
+    line: export XDG_CONFIG_DIRS={{ dir.xdg_config_dirs|join(':') }}
+
+- name: adding XDG_DATA_DIRS to shell environment
+  lineinfile:
+    path: /etc/profile.d/sh.local
+    regex: '^export XDG_DATA_DIRS='
+    line: export XDG_DATA_DIRS={{ dir.xdg_data_dirs|join(':') }}
+
+- name: copying xdg-dirs.conf settings file
+  copy:
+    src: user-dirs.conf
+    dest: /etc/xdg/user-dirs.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: copying XDG default user directories configuration file
+  template:
+    src: user-dirs.defaults.j2
+    dest: /etc/xdg/user-dirs.defaults
+    owner: root
+    group: root
+    mode: 0644
+  notify: update xdg user dirs

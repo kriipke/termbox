@@ -1,0 +1,14 @@
+dir:
+  xdg_config_dirs:
+    - /etc/xdg
+    - /usr/local/etc
+  xdg_data_dirs:
+    - /usr/share
+    - /usr/local/share
+  xdg_user_download: .dl
+  xdg_user_templates: templates
+  xdg_user_documents: docs
+  xdg_user_music: media/tunes
+  xdg_user_pictures: media/pics
+  xdg_user_videos: media/video
+  xdg_user_publicshare: public

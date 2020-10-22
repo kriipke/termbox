@@ -1,0 +1,2 @@
+- name: update xdg user dirs
+  command: xdg-user-dirs-update

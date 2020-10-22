@@ -1,0 +1,11 @@
+[Unit]
+Description=set virtual terminal colors
+OnFailure=status-email-notice@%n.service
+After=getty.target
+
+[Service]
+Type=exec
+ExecStart=/usr/local/bin/setvtcolors /usr/share/colorschemes/papercolor-alt.light
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+- name: configure virtual terminal defaults
+  connection: ssh
+  gather_facts: true
+  hosts: default
+  become: yes
+  become_method: sudo
+  roles:
+    - common
+    - colors
+    - font
+  vars:
+    colorscheme: bright
+    font: ter-powerline-v16n
