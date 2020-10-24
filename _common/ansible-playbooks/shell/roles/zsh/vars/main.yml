@@ -6,8 +6,7 @@ zsh:
     - ripgrep
     - fd
     - fasd
-dir:
-  ohmyzsh: /usr/lib/zsh
-  zsh_custom: /etc/zsh
+omz_dir: /usr/lib/omz
+ZSH_CUSTOM: /etc/zsh
 pkg:
   chsh: util-linux-user

@@ -1,4 +1,7 @@
 ---
+
+# download zsh & create zsh init files
+
 - name: install zsh package
   package:
     name:
@@ -6,44 +9,56 @@
       - "{{ pkg.chsh }}"
     state: latest
 
-- name: create $ZSH_CUSTOM directory
-  copy:
-    path: "{{ dir.zsh_custom }}"
-    state: directory
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    mode: 0755
-  loop: "{{ zsh_users }}"
-
-
-- name: set zsh as default shell for given users
-  command: chsh -s /usr/bin/zsh {{ item }}
-  loop: "{{ zsh_users }}"
-
-
-- name: download oh-my-zsh installer
-  get_url:
-    url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    dest: /tmp/ohmyzsh.sh
-    mode: 0550
-
-- name: running oh-my-zsh installer
-  shell: ZSH="{{ dir.ohmyzsh }}" sh /tmp/ohmyzsh.sh --unattended
-  args:
-    creates: "{{ dir.ohmyzsh }}/oh-my-zsh.sh"
-
-- name: create $ZSH_CUSTOM directory
+- name: TOUCH /etc/zsh directory
   file:
-    path: "{{ dir.zsh_custom }}"
+    path: "{{ ZSH_CUSTOM }}"
     state: directory
     owner: root
     group: root
     mode: 0755
 
-- name: copying system-wide zshrc to host
+- name: TOUCH /etc/zsh/aliases.zsh
+  file:
+    path: "{{ ZSH_CUSTOM }}/aliases.zsh"
+    state: touch
+    owner: root
+    group: root
+    mode: 0644
+
+- name: TEMPLATE /etc/zshrc
   template:
     src: zshrc.j2
     dest: /etc/zshrc
     owner: root
     group: root
     mode: 0755
+
+- name: TEMPLATE $HOME/.zshrc
+  become: "{{ item }}"
+  become_method: sudo
+  copy:
+    src: user_zshrc
+    dest: "$HOME/.zshrc"
+  loop: "{{ zsh_users }}"
+  
+- name: REGISTER `which zsh` -> which_zsh
+  command: which zsh
+  register: which_zsh
+
+- name: COMMAND chsh -s zsh $user
+  command: chsh -s {{ which_zsh }} {{ item }}
+  loop: "{{ zsh_users }}"
+
+# install omz
+
+- name: DOWNLOAD omz installer
+  get_url:
+    url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/omz_install.sh
+    mode: 0550
+
+- name: INSTALL omz > /usr/local/lib
+  shell: ZSH="{{ omz_dir }}" sh /tmp/omz_intall.sh --unattended
+  args:
+    creates: "{{ omz_dir }}/oh-my-zsh.sh"
+

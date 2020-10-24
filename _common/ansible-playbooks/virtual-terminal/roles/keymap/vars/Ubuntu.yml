@@ -1,3 +1,2 @@
 ---
-dir:
-  keymaps: /usr/share/keymaps
+keymaps_dir: /usr/share/keymaps

@@ -4,10 +4,10 @@
   with_first_found:
     - '{{ ansible_distribution }}.yml'
 
-- name: copying console keymap to host
+- name: INSTALL termbox.map
   copy:
-    src: o0zi.map
-    dest: "{{ dir.keymaps }}"
+    src: termbox.map
+    dest: "{{ keymaps_dir }}"
     owner: root
     group: root
     mode: 0644

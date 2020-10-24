@@ -1,3 +1,2 @@
 ---
-dir:
-  consolefonts: /lib/kbd/consolefonts
+consolefonts_dir: /lib/kbd/consolefonts

@@ -1,3 +1,2 @@
 ---
-dir:
-  consolefonts: /usr/share/consolefonts
+consolefonts_dir: /usr/share/consolefonts

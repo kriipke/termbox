@@ -1,0 +1,3 @@
+---
+prefix: /usr/local
+lnav_data_dir: "{{ prefix }}/share/lnav"

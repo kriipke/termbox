@@ -1,3 +1,2 @@
 ---
-dir:
-  keymaps: /lib/kbd/keymaps
+keymaps_dir: /lib/kbd/keymaps

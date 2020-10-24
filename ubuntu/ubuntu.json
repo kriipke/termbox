@@ -159,7 +159,7 @@
   "variables": {
     "arch": "",
     "box_basename": "o0zi",
-    "build_directory": "{{template_dir}}/../../builds/v{{user `git_revision`}}",
+    "build_directory": "{{template_dir}}/../_builds/v{{user `git_revision`}}",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "2",
     "disk_size": "40000",

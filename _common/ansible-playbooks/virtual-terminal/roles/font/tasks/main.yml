@@ -4,10 +4,10 @@
   with_first_found:
     - '{{ ansible_distribution }}.yml'
 
-- name: copying console font Terminess to host
+- name: INSTALL Terminess font
   copy:
     src: "{{ item }}"
-    dest: "{{ dir.consolefonts }}"
+    dest: "{{ consolefonts_dir }}"
     owner: root
     group: root
     mode: 0644
@@ -16,7 +16,7 @@
     - ter-powerline-v16n.psf.gz
     - ter-powerline-v16v.psf.gz
 
-- name: setting default console font via /etc/vconsole.conf
+- name: INSTALL /etc/vconsole.conf
   template:
     src: vconsole.conf.j2
     dest: /etc/vconsole.conf
@@ -25,7 +25,7 @@
     mode: 0644
   when: ansible_distribution == 'Fedora'
 
-- name: setting default console font via /etc/defaults/console-setup
+- name: INSTALL /etc/defaults/console-setup
   template:
     src: console-setup.j2
     dest: /etc/default/console-setup

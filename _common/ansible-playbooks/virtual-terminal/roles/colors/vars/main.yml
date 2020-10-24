@@ -1,2 +1,4 @@
 ---
 colorscheme: bright
+prefix: /usr
+color_dir: /usr/share/color

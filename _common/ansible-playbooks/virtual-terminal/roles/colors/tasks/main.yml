@@ -1,16 +1,15 @@
 ---
-- name: set distro-specific variables
-  include_vars: '{{ item }}'
-  with_first_found:
-    - '{{ ansible_distribution }}.yml'
-
-- name: installing package containing setvtrgb
+- name: INSTALL package - setvtrgb
   package:
     name:
       - kbd
     state: latest
 
-- name: creating system-wide color directory
+- name: REGISTER which setvtrgb
+  command: which setvtrgb
+  register: which_setvtrgb
+
+- name: TOUCH system color directory
   file:
     path: "{{ item }}"
     state: directory
@@ -18,13 +17,13 @@
     group: root
     mode: 0755
   loop:
-    - /usr/share/color
-    - /usr/share/color/vtrgb
+    - "{{ color_dir }}"
+    - "{{ color_dir }}/vtrgb"
 
-- name: copying 16 color RGB colorschemes for virtual terminal
+- name: INSTALL vtrgb colorschemes
   copy:
     src: "{{ item }}"
-    dest: /usr/share/color/vtrgb/
+    dest: "{{ color_dir }}/vtrgb/{{ item }}"
     owner: root
     group: root
     mode: 0644
@@ -32,14 +31,14 @@
     - monochrome.vtrgb
     - bright.vtrgb
 
-- name: creating link from vtrgb file to /etc/vtrgb
+- name: LINK colorscheme.vtrgb /etc/vtrgb
   file:
-    src: /usr/share/color/vtrgb/{{ colorscheme }}.vtrgb
+    src: "{{ color_dir }}/vtrgb/{{ colorscheme }}.vtrgb"
     dest: /etc/vtrgb
     state: link
     force: yes
 
-- name: installing systemd unit - setvtrgb.service
+- name: INSTALL systemd unit - setvtrgb.service
   template:
     src: setvtrgb.service.j2
     dest: /usr/lib/systemd/system/setvtrgb.service
@@ -47,7 +46,18 @@
     group: root
     mode: 0644
 
-- name: enabling systemd unit - setvtrgb.service
+- name: SYSTEMD enable - setvtrgb.service
   service:
     name: setvtrgb.service
     enabled: yes
+
+- name: INSTALL color test scripts
+  copy:
+    src: "{{ item }}"
+    dest: "{{ prefix }}/bin/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+  loop:
+    - colortest
+    - 256colortest

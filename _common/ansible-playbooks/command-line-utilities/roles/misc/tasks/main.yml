@@ -1,0 +1,27 @@
+---
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
+  tags: vars
+
+- name: INSTALL package - fzf
+  package:
+    name: "{{ fzf }}"
+    state: latest
+
+- name: INSTALL zsh completions - fzf
+  file:
+    path: "{{ fzf_sourced_files_dir }}/completion.zsh"
+    dest: "{{ zsh_custom }}/_fzf"
+
+- name: INSTALL bash completions - fzf
+  file:
+    path: "{{ fzf_sourced_files_dir }}/completion.bash"
+    dest: "/etc/bash-completions/fzf.bash-completion"
+
+- name: INSTALL zsh completions - fzf
+  file:
+    path: "{{ fzf_sourced_files_dir }}/key-bindings.zsh"
+    dest: "{{ zsh_custom }}/_fzf"

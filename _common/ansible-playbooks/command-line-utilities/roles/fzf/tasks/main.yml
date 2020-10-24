@@ -1,0 +1,25 @@
+---
+- name: INSTALL package - fzf
+  package:
+    name: "{{ fzf }}"
+    state: latest
+
+- name: INSTALL zsh completions - fzf
+  file:
+    path: "{{ fzf_sourced_files_dir }}/completion.zsh"
+    dest: "{{ ZSH_CUSTOM }}/_fzf"
+
+- name: INSTALL bash completions - fzf
+  file:
+    path: "{{ fzf_sourced_files_dir }}/completion.bash"
+    dest: "/etc/bash-completions/fzf.bash-completion"
+
+- name: INSTALL zsh key-bindings - fzf
+  file:
+    path: "{{ fzf_sourced_files_dir }}/key-bindings.zsh"
+    dest: "{{ ZSH_CUSTOM }}/fzf.zsh"
+
+- name: INSTALL bash key-bindings - fzf
+  file:
+    path: "{{ fzf_sourced_files_dir }}/key-bindings.bash"
+    dest: "{{ system_bashrc_dir }}/fzf.bash"

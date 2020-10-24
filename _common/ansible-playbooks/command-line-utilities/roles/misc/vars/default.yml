@@ -1,0 +1,18 @@
+---
+ZSH_CUSTOM: /etc/zshrc.d/
+BASH_CUSTOM: /etc/bashrc.d/
+COLOR_DIR: /usr/share/color/
+
+git: git
+curl: curl
+vim: vim
+htop: htop
+nnn: nnn
+tree: tree
+tig: tig
+httpie: httpie
+jq: jq
+fzf: fzf
+ncdu: ncdu
+qrencode: qrencode
+bash-completion: bash-completion

@@ -1,0 +1,6 @@
+---
+system_bashrc: /etc/bash.bashrc
+fzf_sourced_files_dir: /usr/share/doc/fzf/examples/
+nnn_sourced_files_dir:
+
+exuberant-ctags: exuberant-ctags

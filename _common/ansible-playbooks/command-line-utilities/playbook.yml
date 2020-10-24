@@ -1,0 +1,9 @@
+- name: installing and configuring neovim 
+  connection: ssh
+  gather_facts: true
+  become: yes
+  become_method: sudo
+  hosts: default
+  roles:
+    - nvim
+

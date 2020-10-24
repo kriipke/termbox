@@ -1,0 +1,4 @@
+---
+vimfiles_repo: "https://github.com/l0xy/vim-config"
+VIM: /usr/share/vim/vimfiles
+ZSH_CUSTOM: /etc/zsh

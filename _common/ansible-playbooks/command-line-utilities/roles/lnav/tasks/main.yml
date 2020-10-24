@@ -1,0 +1,26 @@
+---
+- name: install dependencies (sqlite3, check what else)
+
+- name: install lnav
+
+- name: create lnav shared directory
+  file:
+    path: "{{ lnav_data_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: install lnav log formats
+  repo:
+    src: "{{ item.url }}"
+    dest: "{{ lnav_data_dir }}/{{ item.author }}"
+    owner: root
+    group: root
+    mode: 0755
+  loop:
+    - { author: 'PaulWay', url: 'https://github.com/PaulWay/lnav-formats' }
+    - { author: 'aspiers', url: 'https://github.com/aspiers/lnav-formats' }
+    - { author: 'tstack', url: 'https://github.com/tstack/lnav-formats' }
+
+- name: update lnav formats for users

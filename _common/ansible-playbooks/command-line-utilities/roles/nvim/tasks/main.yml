@@ -1,0 +1,78 @@
+---
+
+# INSTALLED: NEOVIM
+
+- name: installing neovim package
+  package:
+    name: neovim
+    state: latest
+
+- name: deleting old /usr/vim/vimfiles
+  file:
+    path: "{{ VIM }}"
+    state: absent
+
+- name: git clone /usr/share/vim/vimfiles l0xy/vim-config 
+  git:
+    repo: "{{ vimfiles_repo }}"
+    dest: "{{ VIM }}"
+    recursive: yes
+
+- name: adding $VIM to shell environment
+  lineinfile:
+    path: /etc/profile.d/sh.local
+    regex: '^export VIM='
+    line: export VIM={{ VIM }}
+
+# NEOVIM INIT FILES
+
+- name: creating sysinit.vim file
+  file:
+    path: "{{ VIM }}/sysinit.vim"
+    state: touch
+    owner: root
+    group: root
+    mode: 0644
+
+- name: 'runtimepath+=$VIM' > sysinit.vim
+  lineinfile:
+    path: "{{ VIM }}/sysinit.vim"
+    line: set runtimepath^={{ VIM }} runtimepath+={{ VIM }}/after
+
+- name:  setting packpath = vim plugins
+  lineinfile:
+    path: "{{ VIM }}/sysinit.vim"
+    line: let &packpath = &runtimepath
+
+- name: "'source /etc/vimrc' > sysinit.vim"
+  lineinfile:
+    path: "{{ VIM }}/sysinit.vim"
+    line: source /etc/vimrc
+
+- name: creating system vimrc file
+  file:
+    path: "/etc/vimrc"
+    state: touch
+    owner: root
+    group: root
+    mode: 0644
+
+- name: 'source /etc/vimrc.local' > /etc/vimrc
+  lineinfile:
+    path: "/etc/vimrc"
+    line: "source /etc/vimrc.local"
+
+# ALIAS VIM=NVIM
+
+- name: touch aliases.zsh
+  file:
+    path: "{{ ZSH_CUSTOM }}/aliases.zsh"
+    state: touch
+    owner: root
+    group: root
+    mode: 0644
+
+- name: 'alias vim=nvim' > aliases.zsh
+  lineinfile:
+    path: "{{ ZSH_CUSTOM }}/aliases.zsh"
+    line: alias vim="nvim"
