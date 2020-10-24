@@ -1,0 +1,6 @@
+---
+prefix: /usr/local
+ZSH_CUSTOM: /etc/zsh
+system_bashrc_dir: /etc/bashrc.d
+nnn_plugin_dir: "{{ prefix }}/lib/nnn"
+nnn_config_dir: "/etc/xdg/nnn"

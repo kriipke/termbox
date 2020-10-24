@@ -153,10 +153,25 @@
         "{{template_dir}}/../_common/vmware.sh",
         "{{template_dir}}/../_common/parallels.sh",
         "{{template_dir}}/../_common/vagrant.sh",
-        "{{template_dir}}/../_common/configure_xdg_dirs.sh",
-        "{{template_dir}}/../_common/configure_linux_vt.sh",
-        "{{template_dir}}/../_common/provii_binaries.sh",
-        "{{template_dir}}/../_common/vim.sh",
+        "{{template_dir}}/../_common/provii_binaries.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "{{template_dir}}/../_common/ansible-playbooks/virtual-terminal/playbook.yml"
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "{{template_dir}}/../_common/ansible-playbooks/shell/playbook.yml"
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "{{template_dir}}/../_common/ansible-playbooks/command-line-utilities/playbook.yml"
+    },
+    {
+      "execute_command": "echo '{{user `pam_password`}}' | {{.Vars}} sudo -E -S bash '{{.Path}}'",
+      "scripts": [
         "{{template_dir}}/../_common/virtualbox.sh",
         "{{template_dir}}/scripts/cleanup.sh",
         "{{template_dir}}/../_common/minimize.sh"
@@ -173,7 +188,7 @@
     "disk_size": "40000",
     "git_revision": "0.1.0",
     "guest_additions_url": "",
-  	"vbox_guest_type": "",
+    "vbox_guest_type": "",
     "headless": "false",
     "http_directory": "{{template_dir}}/http",
     "iso_checksum": "",

@@ -34,7 +34,7 @@
     group: root
     mode: 0644
 
-- name: 'runtimepath+=$VIM' > sysinit.vim
+- name: "'runtimepath+=$VIM' > sysinit.vim"
   lineinfile:
     path: "{{ VIM }}/sysinit.vim"
     line: set runtimepath^={{ VIM }} runtimepath+={{ VIM }}/after
@@ -57,7 +57,7 @@
     group: root
     mode: 0644
 
-- name: 'source /etc/vimrc.local' > /etc/vimrc
+- name: "'source /etc/vimrc.local' > /etc/vimrc"
   lineinfile:
     path: "/etc/vimrc"
     line: "source /etc/vimrc.local"
@@ -72,7 +72,7 @@
     group: root
     mode: 0644
 
-- name: 'alias vim=nvim' > aliases.zsh
+- name: "'alias vim=nvim' > aliases.zsh"
   lineinfile:
     path: "{{ ZSH_CUSTOM }}/aliases.zsh"
     line: alias vim="nvim"

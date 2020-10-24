@@ -1,0 +1,253 @@
+# termbox
+
+`termbox` is a repository containing the scripts and configuration files generate Vagrant boxes using link:https://www.packer.io[Hashicorp's Packer] to generate virtual machine base images configured with a handful of highly useful command line utilities to provide a powerful and user-friendly command line experience out-of-the-box to facilitate terminal based workflows.
+
+`termbox` images were designed for those who want to boot up a fresh VM for the purpose of building a temporary lab environment or testing out a new piece of software and would like to have some familiar command line tools installed withoutdoing any manual provisioning.
+
+The tools that are included in `termbox` aide in tasks such as:
+
+- searching for and editing files
+- navigating the filesystem
+- file management
+- monitoring
+- browsing & interacting with local git repositories
+- searching and navigating logs
+
+In addition to being a great disposable VM image for testing and virtual labs, `termbox` is also a great playground for those who are new to the command-line and want to familiarize themselves with some of the more powerful tools available to them. For these users, I hope that these VMs will make their journey less cumbersome.
+
+== generation
+
+All `termbox` images are generated from using a minimal install ISO, and thus contain really just the necessary software to run the system and the tools mentioned below before installing the softwares listed below.
+
+To generate a Fedora32 Vagrant box using Virtualbox as the provider, for example, just run:
+
+[source,bash]
+cd fedora
+packer build -only=virtualbox-iso -vars-file=32.vars fedora.json
+
+The `-vars-file` argument will contain the `packer` variables for the major release of the distribution chosen to build, and the final argument will be the json file corresponding to the distribution.
+
+Possible providers include:
+- `virtualbox-iso`
+- `vmware-iso`
+- `parallels-iso`
+
+== command line utilities
+
+`termbox` uses another tool I've created named link:https://l0xy.sh/code/provii[provii] to install most of it's software. Tools (along with their associated man pages & shell completions) that are installed with provii include:
+
+link:https://github.com/sharkdp/fd[fd] :: an intuive, powerful alternative to the `find` command
+link:https://github.com/BurntSushi/ripgrep[rg] :: an extremely fast way to recursively search files using regular expressions
+link:https://github.com/sharkdp/bat[bat] :: a clone of cat that supports syntax highlighting
+link:https://github.com/junegunn/fzf[fzf] :: a powerful fuzzy finder useful for both finding files as well as useful when integrated with `vim`
+link:https://github.com/Peltoche/lsd[lsd] :: an colorful, featureful alternative to the `ls` command
+link:https://l0xy.sh/code/tagger[tagger] :: a tool for using extended file attributes to tag and organize files and directories
+link:https://github.com/koalaman/shellcheck[shellcheck] :: a shell script static analysis tool that gives warnings and suggestions for bash/sh shell scripts
+link:https://github.com/imsnif/bandwhich[bandwhich] :: a TUI network monitor including bandwidth stats and active connections
+link:https://kmon.cli.rs[kmon] :: a TUI kernel module monitor
+
+Note that these files are all installed as single binary files in `/usr/local/bin/` so if you do not want any of them on your machine their removal is as simple as `rm $(which [command])`. However, none of these utilities take up more than a few megabytes and can really come in handy in the right situations.
+
+The following command line utilities are also installed using the system's package manager:
+
+link:https://github.com/jarun/nnn[nnn]::
+	a lightweight but powerful TUI file manager
+link:https://github.com/jonas/tig[tig]::
+	a powerful TUI interface for git, particularly useful for browsing the history of repositories on the local machine
+link:https://httpie.org[httpie]::
+	a user-friendly command-line HTTP client for the API era
+link:https://stedolan.github.io/jq[jq]::
+	a lightweight and flexible command-line JSON processor
+link:https://dev.yorhel.nl/ncdu[ncdu]::
+	a disk usage analyzer with an ncurses interface
+
+== shell functions
+
+`termbox` comes pre-loaded with a handful of useful shell functions to aide in every day tasks:
+
+`upload`:: uploads binary files to link:https://file.io[file.io] or text files to link:https://hastebin.com[hastebin], both for 30 days, and displays a qrcode to easily open/share the link on a mobile device
+`trspaces`:: replaces all spaces with underscores in files in the working directory
+`explain`:: takes a command and a switch for that command as arguments, e.g. `explain tar -x`, and prints out the relevant section of the man page explaining what that switch does
+
+== zsh
+The default shell for `termbox` is `zsh`, a robust and powerful shell that offers many extensions beyond the standard `bash` shell. Both `zsh` and `oh-my-zsh`, a large set of `zsh` plugins, are installed system-wide.
+
+To modify the `zsh` init files, i.e. add a custom script or alias, simply add it to a file with the `.zsh` extension to the `/etc/zsh` directory or modify the system `zshrc` located at `/etc/zshrc`.
+
+== neovim
+
+In addition to the command line utitlies above `termbox` also comes pre-installed with `nvim` and a handful of useful plugins. Additionally, the `nvim` initialization files include some handy keybindings.
+
+=== plugins
+
+link:https://github.com/dense-analysis/ale[ ale ]/link:https://github.com/maximbaz/lightline-ale[ lightline-ale ]::
+	check syntax in vim/neovim asynchronously and fix files
+link:https://github.com/tpope/vim-commentary[ vim-commentary ]::
+	intelligently comment/uncomment lines based on filetype
+link:https://github.com/tpope/vim-surround[ vim-surround ]::
+	surround or strip quotes, parenthesis, etc. to/from areas of text
+link:https://github.com/tpope/vim-fugitive[ vim-fugitive ]::
+	an amazing git wrapper for vim/neovim
+link:https://github.com/junegunn/fzf.vim[ fzf.vim ]::
+	fuzzy search (in buffer, across buffers, in current directory, etc.)
+link:https://github.com/sheerun/vim-polyglot[ vim-polyglot ]::
+	a pleathora of useful syntax files for various file formats
+link:https://github.com/itchyny/lightline.vim[ lightline.vim ]::
+	enhanced, lightweight vim/neovim status bar
+link:https://github.com/preservim/nerdtree[ nerdtree ]/link:https://github.com/Xuyuanp/nerdtree-git-plugin[ nerdtree-git-plugin ]::
+	browse files in project directory while displaying git status for each file
+link:https://github.com/mcchrish/nnn.vim[ nnn.vim ]::
+	open `nnn` in a popup window, useful for moving/rename files
+link:https://github.com/preservim/tagbar[ tagbar ]/link:https://github.com/ludovicchabant/vim-gutentags[ vim-gutentags ]::
+	display tags generated by gutentags in a sidebar for nagivation
+link:https://github.com/benmills/vimux[ vimux ]::
+	pipe output of commands run in vim/neovim into a new tmux pane
+
+=== keybindings
+
+The leader key has been changed to `;` for convenience. Below are some of the most useful keybindings available (see `/etc/vimrc.local` for all available bindings):
+
+[source,vim]
+----
+let mapleader = ";"
+----
+
+.change window
+[source,vim]
+----
+" Move the cursor to the window...
+
+" ;k - above current one
+nmap <leader>k <C-w>k
+
+" ;j - below current one
+nmap <leader>j <C-w>j
+
+" ;h - to the left of the current one
+nmap <leader>h <C-w>h
+
+" ;l - to the right of the current one
+nmap <leader>l <C-w>l
+
+" ;<space> - previously selected
+nmap <leader><space> <C-w>p
+----
+
+.split window
+[source,vim]
+----
+" Split current window, creating a new view of the current buffer...
+
+" C-j - below the current one
+nmap <C-j> :belowright split<cr>
+
+" C-k - above the current one
+nmap <C-k> :split<cr>
+
+" C-h - to the left of the current one
+nmap <C-h> :vsplit<cr>
+
+" C-l - to the right of the current one
+nmap <C-l> :belowright vsplit<cr>
+----
+
+.new window
+[source,vim]
+----
+" Interactively populate a new window with an open buffer...
+
+" ;J - below the current window
+nmap <leader>J :belowright new +Buffers<cr>
+
+" ;K - above the current window
+nmap <leader>K :new +Buffers<cr>
+
+" ;H - to the left the current window
+nmap <leader>H :vnew +Buffers<cr>
+
+" ;L - to the right of the current window
+nmap <leader>L :belowright vnew +Buffers<cr>
+----
+
+.resize window
+[source,vim]
+----
+" CTRL + arow keys
+
+nmap <C-down> <C-w>-
+nmap <C-up>	<C-w>+
+nmap <C-left> <C-w><
+nmap <C-right> <C-w>>
+----
+
+.previous/next syntax error
+[source,vim]
+----
+" C-e - jump to next syntax error
+nmap <silent> <C-e> <Plug>(ale_next_wrap)
+
+" C-E - jump to previous syntax error
+nmap <silent> <C-E> <Plug>(ale_previous_wrap)
+----
+
+.file browsing/management
+[source,vim]
+----
+" ;n - toggle nnn file manager
+nmap <leader>n :NnnPicker<cr>
+
+" ;e - toggle NERDTree file browser
+nmap <leader>e :NERDTree<cr>
+----
+
+.tagbar
+[source,vim]
+----
+" ;t - open/close tagbar
+nmap <leader>tt :TagbarToggle<cr>
+
+" ;tt - temporarily open tagbar to jump to a particular tag
+nmap <leader>t :TagbarOpenAutoClose<cr>
+----
+
+.fuzzy searching
+[source,vim]
+----
+" C-/ - fuzzy find lines in all open buffers
+nmap C-/ :Lines<cr>
+
+" ;/ - fuzzy find lines in current buffer
+nmap <leader>/ :BLines<cr>
+
+" ;f - fuzzy find files in current working directory
+nmap <leader>f :Files<cr>
+
+" ;b - fuzzy find open buffers
+nmap <leader>b :Buffers<cr>
+----
+
+.miscellaneous
+[source,vim]
+----
+
+" ;c - comment/uncomment selected lines lines
+vmap <leader>c :Commentary<cr>
+
+" ;d - show changes made since file was last saved
+nmap <leader>d :DiffOrig<cr>
+----
+
+.git
+[source,vim]
+----
+" ;gs - show status of current Git repository in a new tab
+nmap <leader>gs :tab :Gstatus<cr>
+
+" ;gl - show Git log in a new tab
+nmap <leader>gl :tab :Gclog<cr>
+----
+
+== To-Do
+
+- include some of the https://github.com/alexanderepstein/Bash-Snippets tools
+- port some of the bash provisioning scripts to ansible

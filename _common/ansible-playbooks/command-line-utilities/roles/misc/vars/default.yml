@@ -5,7 +5,6 @@ COLOR_DIR: /usr/share/color/
 
 git: git
 curl: curl
-vim: vim
 htop: htop
 nnn: nnn
 tree: tree

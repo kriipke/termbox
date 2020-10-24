@@ -4,6 +4,7 @@
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
     - "{{ ansible_distribution }}.yml"
+    - default.yml
   tags: vars
 
 - name: INSTALL package - fzf
@@ -11,17 +12,59 @@
     name: "{{ fzf }}"
     state: latest
 
-- name: INSTALL zsh completions - fzf
-  file:
-    path: "{{ fzf_sourced_files_dir }}/completion.zsh"
-    dest: "{{ zsh_custom }}/_fzf"
+- name: INSTALL packages - git
+  package:
+    name:
+      - "{{ git }}"
+      - "{{ git-flow }}"
+    state: latest
 
-- name: INSTALL bash completions - fzf
-  file:
-    path: "{{ fzf_sourced_files_dir }}/completion.bash"
-    dest: "/etc/bash-completions/fzf.bash-completion"
+- name: INSTALL packages - nnn
+  package:
+    name: "{{ nnn }}"
+    state: latest
 
-- name: INSTALL zsh completions - fzf
-  file:
-    path: "{{ fzf_sourced_files_dir }}/key-bindings.zsh"
-    dest: "{{ zsh_custom }}/_fzf"
+- name: INSTALL packages - curl
+  package:
+    name: "{{ curl }}"
+    state: latest
+
+- name: INSTALL packages - htop
+  package:
+    name: "{{ htop }}"
+    state: latest
+
+- name: INSTALL packages - tree
+  package:
+    name: "{{ tree }}"
+    state: latest
+    
+- name: INSTALL packages - jq
+  package:
+    name: "{{ jq }}"
+    state: latest
+
+- name: INSTALL packages - httpie
+  package:
+    name: "{{ httpie }}"
+    state: latest
+
+- name: INSTALL packages - ncdu
+  package:
+    name: "{{ ncdu }}"
+    state: latest
+
+- name: INSTALL packages - qrencode
+  package:
+    name: "{{ qrencode }}"
+    state: latest
+
+- name: INSTALL packages - bash-completion
+  package:
+    name: "{{ bash-completion }}"
+    state: latest
+
+- name: INSTALL packages - exuberant-ctags
+  package:
+    name: "{{ exuberant-ctags }}"
+    state: latest
