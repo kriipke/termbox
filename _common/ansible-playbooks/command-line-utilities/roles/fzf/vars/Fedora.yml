@@ -1,0 +1,3 @@
+---
+system_bashrc: /etc/bashrc
+fzf_sourced_files_dir: /usr/local/lib/fzf/shell/

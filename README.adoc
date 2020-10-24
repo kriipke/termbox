@@ -15,7 +15,7 @@ The tools that are included in `termbox` aide in tasks such as:
 
 In addition to being a great disposable VM image for testing and virtual labs, `termbox` is also a great playground for those who are new to the command-line and want to familiarize themselves with some of the more powerful tools available to them. For these users, I hope that these VMs will make their journey less cumbersome.
 
-== generation
+== Generating the Boxes
 
 All `termbox` images are generated from using a minimal install ISO, and thus contain really just the necessary software to run the system and the tools mentioned below before installing the softwares listed below.
 
@@ -28,11 +28,20 @@ packer build -only=virtualbox-iso -vars-file=32.vars fedora.json
 The `-vars-file` argument will contain the `packer` variables for the major release of the distribution chosen to build, and the final argument will be the json file corresponding to the distribution.
 
 Possible providers include:
+
 - `virtualbox-iso`
 - `vmware-iso`
 - `parallels-iso`
 
-== command line utilities
+Possible distributions include:
+
+- Ubuntu
+- Fedora
+- CentOS
+
+The Ansible playbooks used to provision the boxes are located at `_common/ansible-playbooks`.
+
+== Command-line Utilities
 
 `termbox` uses another tool I've created named link:https://l0xy.sh/code/provii[provii] to install most of it's software. Tools (along with their associated man pages & shell completions) that are installed with provii include:
 
@@ -61,7 +70,7 @@ link:https://stedolan.github.io/jq[jq]::
 link:https://dev.yorhel.nl/ncdu[ncdu]::
 	a disk usage analyzer with an ncurses interface
 
-== shell functions
+== Shell Functions
 
 `termbox` comes pre-loaded with a handful of useful shell functions to aide in every day tasks:
 
@@ -69,12 +78,12 @@ link:https://dev.yorhel.nl/ncdu[ncdu]::
 `trspaces`:: replaces all spaces with underscores in files in the working directory
 `explain`:: takes a command and a switch for that command as arguments, e.g. `explain tar -x`, and prints out the relevant section of the man page explaining what that switch does
 
-== zsh
+== Zsh
 The default shell for `termbox` is `zsh`, a robust and powerful shell that offers many extensions beyond the standard `bash` shell. Both `zsh` and `oh-my-zsh`, a large set of `zsh` plugins, are installed system-wide.
 
 To modify the `zsh` init files, i.e. add a custom script or alias, simply add it to a file with the `.zsh` extension to the `/etc/zsh` directory or modify the system `zshrc` located at `/etc/zshrc`.
 
-== neovim
+== Neovim
 
 In addition to the command line utitlies above `termbox` also comes pre-installed with `nvim` and a handful of useful plugins. Additionally, the `nvim` initialization files include some handy keybindings.
 
@@ -112,7 +121,7 @@ The leader key has been changed to `;` for convenience. Below are some of the mo
 let mapleader = ";"
 ----
 
-.change window
+==== change window
 [source,vim]
 ----
 " Move the cursor to the window...
@@ -133,7 +142,7 @@ nmap <leader>l <C-w>l
 nmap <leader><space> <C-w>p
 ----
 
-.split window
+==== split window
 [source,vim]
 ----
 " Split current window, creating a new view of the current buffer...
@@ -151,7 +160,7 @@ nmap <C-h> :vsplit<cr>
 nmap <C-l> :belowright vsplit<cr>
 ----
 
-.new window
+==== new window
 [source,vim]
 ----
 " Interactively populate a new window with an open buffer...
@@ -169,7 +178,7 @@ nmap <leader>H :vnew +Buffers<cr>
 nmap <leader>L :belowright vnew +Buffers<cr>
 ----
 
-.resize window
+==== resize window
 [source,vim]
 ----
 " CTRL + arow keys
@@ -180,7 +189,7 @@ nmap <C-left> <C-w><
 nmap <C-right> <C-w>>
 ----
 
-.previous/next syntax error
+==== previous/next syntax error
 [source,vim]
 ----
 " C-e - jump to next syntax error
@@ -190,7 +199,7 @@ nmap <silent> <C-e> <Plug>(ale_next_wrap)
 nmap <silent> <C-E> <Plug>(ale_previous_wrap)
 ----
 
-.file browsing/management
+==== file browsing/management
 [source,vim]
 ----
 " ;n - toggle nnn file manager
@@ -200,7 +209,7 @@ nmap <leader>n :NnnPicker<cr>
 nmap <leader>e :NERDTree<cr>
 ----
 
-.tagbar
+==== tagbar
 [source,vim]
 ----
 " ;t - open/close tagbar
@@ -210,7 +219,7 @@ nmap <leader>tt :TagbarToggle<cr>
 nmap <leader>t :TagbarOpenAutoClose<cr>
 ----
 
-.fuzzy searching
+==== fuzzy searching
 [source,vim]
 ----
 " C-/ - fuzzy find lines in all open buffers
@@ -226,7 +235,7 @@ nmap <leader>f :Files<cr>
 nmap <leader>b :Buffers<cr>
 ----
 
-.miscellaneous
+==== miscellaneous
 [source,vim]
 ----
 
@@ -237,7 +246,7 @@ vmap <leader>c :Commentary<cr>
 nmap <leader>d :DiffOrig<cr>
 ----
 
-.git
+==== git
 [source,vim]
 ----
 " ;gs - show status of current Git repository in a new tab
@@ -246,8 +255,3 @@ nmap <leader>gs :tab :Gstatus<cr>
 " ;gl - show Git log in a new tab
 nmap <leader>gl :tab :Gclog<cr>
 ----
-
-== To-Do
-
-- include some of the https://github.com/alexanderepstein/Bash-Snippets tools
-- port some of the bash provisioning scripts to ansible

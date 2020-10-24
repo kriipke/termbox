@@ -1,0 +1,3 @@
+---
+system_bashrc: /etc/bash.bashrc
+fzf_sourced_files_dir: /usr/share/doc/fzf/examples/
