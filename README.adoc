@@ -43,10 +43,14 @@ The Ansible playbooks used to provision the boxes are located at `_common/ansibl
 
 == Command-line Utilities
 
-`termbox` uses another tool I've created named link:https://l0xy.sh/code/provii[provii] to install most of it's software. Tools (along with their associated man pages & shell completions) that are installed with provii include:
+Upon booting up a `termbox` VM, the following commands will be immediately available: 
 
-[cols="3*"]
+[cols="3*",options="header"]
 |===
+|command
+|description
+|type
+
 |link:https://github.com/sharkdp/fd[fd]
 |an intuive, powerful alternative to the `find` command
 |binary
@@ -54,46 +58,79 @@ The Ansible playbooks used to provision the boxes are located at `_common/ansibl
 |link:https://github.com/BurntSushi/ripgrep[rg]
 |an extremely fast way to recursively search files using regular expressions
 |binary
+
+|link:https://github.com/sharkdp/bat[bat]
+|a clone of cat that supports syntax highlighting
+|binary
+
+|link:https://github.com/junegunn/fzf[fzf]
+|a powerful fuzzy finder useful for both finding files as well as useful when integrated with `vim`
+|binary
+
+|link:https://github.com/Peltoche/lsd[lsd]
+|an colorful, featureful alternative to the `ls` command
+|binary
+
+|link:https://l0xy.sh/code/tagger[tagger]
+|a tool for using extended file attributes to tag and organize files and directories
+|shell script
+
+|link:https://github.com/koalaman/shellcheck[shellcheck]
+|a shell script static analysis tool that gives warnings and suggestions for bash/sh shell scripts
+|binary
+
+|link:https://github.com/imsnif/bandwhich[bandwhich]
+|a TUI network monitor including bandwidth stats and active connections
+|binary
+
+|link:https://kmon.cli.rs[kmon]
+|a TUI kernel module monitor
+|binary
+
+|link:https://github.com/jarun/nnn[nnn]
+|a lightweight but powerful TUI file manager
+|package
+
+|link:https://github.com/jonas/tig[tig]
+|a powerful TUI interface for git, particularly useful for browsing the history of repositories on the local machine
+|package
+
+|link:https://httpie.org[httpie]
+|a user-friendly command-line HTTP client for the API era
+|package
+
+|link:https://stedolan.github.io/jq[jq]
+|a lightweight and flexible command-line JSON processor
+|package
+
+|link:https://dev.yorhel.nl/ncdu[ncdu]
+|a disk usage analyzer with an ncurses interface
+|package
+
+|link:https://github.com/l0xy/shell-functions/blob/master/upload.sh[upload]
+|upload files from the local machine to file-sharing sites and displays a QR code containing a link to the file for easily open/share the link on a mobile device
+|shell function
+
+|link:https://github.com/l0xy/shell-functions/blob/master/files.sh[trspaces]
+|replaces all spaces with underscores in files in the working directory
+|shell function
+
+|link:https://github.com/l0xy/shell-functions/blob/master/explain.sh[explain]
+|takes a command and a switch for that command as arguments, e.g. `explain tar -x`, and prints out the relevant section of the man page explaining what that switch does
+|shell function
 |===
 	
-link:https://github.com/sharkdp/bat[bat] ::
-	a clone of cat that supports syntax highlighting
-link:https://github.com/junegunn/fzf[fzf] ::
-a powerful fuzzy finder useful for both finding files as well as useful when integrated with `vim`
-link:https://github.com/Peltoche/lsd[lsd] ::
-	an colorful, featureful alternative to the `ls` command
-link:https://l0xy.sh/code/tagger[tagger] ::
-	a tool for using extended file attributes to tag and organize files and directories
-link:https://github.com/koalaman/shellcheck[shellcheck] ::
-	a shell script static analysis tool that gives warnings and suggestions for bash/sh shell scripts
-link:https://github.com/imsnif/bandwhich[bandwhich] ::
-	a TUI network monitor including bandwidth stats and active connections
-link:https://kmon.cli.rs[kmon] ::
-	a TUI kernel module monitor
+=== binaries
+The pre-compiled binaries are provisioned via another tool I created named link:https://l0xy.sh/code/provii[provii]. These binaries are all installed in `/usr/local/bin`. If man pages are available for the program in question, they are installed in `/usr/local/share/man/`. Finally, if shell completions are available they are installed in `/usr/local/lib/omz/completion`.
 
-Note that these files are all installed as single binary files in `/usr/local/bin/` so if you do not want any of them on your machine their removal is as simple as `rm $(which [command])`. However, none of these utilities take up more than a few megabytes and can really come in handy in the right situations.
+=== packages
+All packages are installed using the systems native package manager and should be managed thus.
 
-The following command line utilities are also installed using the system's package manager:
+=== shell scripts
+All shell scripts are installed in `/usr/local/bin`.
 
-[horizontal]
-link:https://github.com/jarun/nnn[nnn] ::
-	a lightweight but powerful TUI file manager
-link:https://github.com/jonas/tig[tig] ::
-	a powerful TUI interface for git, particularly useful for browsing the history of repositories on the local machine
-link:https://httpie.org[httpie] ::
-	a user-friendly command-line HTTP client for the API era
-link:https://stedolan.github.io/jq[jq] ::
-	a lightweight and flexible command-line JSON processor
-link:https://dev.yorhel.nl/ncdu[ncdu] ::
-	a disk usage analyzer with an ncurses interface
-
-== Shell Functions
-
-`termbox` comes pre-loaded with a handful of useful shell functions to aide in every day tasks:
-
-`upload`:: uploads binary files to link:https://file.io[file.io] or text files to link:https://hastebin.com[hastebin], both for 30 days, and displays a qrcode to easily open/share the link on a mobile device
-`trspaces`:: replaces all spaces with underscores in files in the working directory
-`explain`:: takes a command and a switch for that command as arguments, e.g. `explain tar -x`, and prints out the relevant section of the man page explaining what that switch does
+=== shell functions
+All shell functions are installed in `/etc/zsh`.
 
 == Zsh
 The default shell for `termbox` is `zsh`, a robust and powerful shell that offers many extensions beyond the standard `bash` shell. Both `zsh` and `oh-my-zsh`, a large set of `zsh` plugins, are installed system-wide.
