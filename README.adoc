@@ -1,25 +1,27 @@
 # termbox
 
-`termbox` is a repository containing the scripts and configuration files generate Vagrant boxes using link:https://www.packer.io[Hashicorp's Packer] to generate virtual machine base images configured with a handful of highly useful command line utilities to provide a powerful and user-friendly command line experience out-of-the-box to facilitate terminal based workflows.
+`termbox` is a project that provides Vagrant boxes meant to be used as base boxes for work that requires command-line intensive workflows. The repository contains the scripts, Ansible playbooks, and configuration files needed to generate the Vagrant boxes using link:https://www.packer.io[Hashicorp's Packer]. All `termbox` VMs are provisioned with a handful of highly useful command line utilities to provide a powerful, user-friendly command-line experience out-of-the-box.
 
-`termbox` images were designed for those who want to boot up a fresh VM for the purpose of building a temporary lab environment or testing out a new piece of software and would like to have some familiar command line tools installed withoutdoing any manual provisioning.
+`termbox` images were designed for those who want to boot up a fresh VM for the purpose of building a temporary lab environment or testing out a new piece of software and would like to have some familiar command line tools installed withoutdoing any manual provisioning. They work equally well as base boxes for building more complex VMs.
 
 The tools that are included in `termbox` aide in tasks such as:
 
 - searching for and editing files
 - navigating the filesystem
 - file management
-- monitoring
+- system monitoring
 - browsing & interacting with local git repositories
 - searching and navigating logs
 
-In addition to being a great disposable VM image for testing and virtual labs, `termbox` is also a great playground for those who are new to the command-line and want to familiarize themselves with some of the more powerful tools available to them. For these users, I hope that these VMs will make their journey less cumbersome.
+In addition to being a solid base box for creating a virtual lab environment, `termbox` is also a great playground for those who are new to the command-line and want to familiarize themselves with some of the more powerful tools available to them. For these users, I hope that these VMs will make their journey less cumbersome.
 
-== Generating the Boxes
+For those that wish to extend the functionality of `termbox`, the Ansible playbooks used to provision the boxes are located at `_common/ansible-playbooks`.
+
+== Generating the boxes
 
 All `termbox` images are generated from using a minimal install ISO, and thus contain really just the necessary software to run the system and the tools mentioned below before installing the softwares listed below.
 
-To generate a Fedora32 Vagrant box using Virtualbox as the provider, for example, just run:
+To generate a Fedora 32 Vagrant box using Virtualbox as the provider, for example, just run:
 
 [source,bash]
 cd fedora
@@ -38,8 +40,6 @@ Possible distributions include:
 - Ubuntu
 - Fedora
 - CentOS
-
-The Ansible playbooks used to provision the boxes are located at `_common/ansible-playbooks`.
 
 == Command-line Utilities
 
@@ -133,6 +133,7 @@ All shell scripts are installed in `/usr/local/bin`.
 All shell functions are installed in `/etc/zsh`.
 
 == Zsh
+
 The default shell for `termbox` is `zsh`, a robust and powerful shell that offers many extensions beyond the standard `bash` shell. Both `zsh` and `oh-my-zsh`, a large set of `zsh` plugins, are installed system-wide.
 
 To modify the `zsh` init files, i.e. add a custom script or alias, simply add it to a file with the `.zsh` extension to the `/etc/zsh` directory or modify the system `zshrc` located at `/etc/zshrc`.
