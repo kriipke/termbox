@@ -45,6 +45,7 @@ The Ansible playbooks used to provision the boxes are located at `_common/ansibl
 
 `termbox` uses another tool I've created named link:https://l0xy.sh/code/provii[provii] to install most of it's software. Tools (along with their associated man pages & shell completions) that are installed with provii include:
 
+[horizontal]
 link:https://github.com/sharkdp/fd[fd] :: an intuive, powerful alternative to the `find` command
 link:https://github.com/BurntSushi/ripgrep[rg] :: an extremely fast way to recursively search files using regular expressions
 link:https://github.com/sharkdp/bat[bat] :: a clone of cat that supports syntax highlighting
